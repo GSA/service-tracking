@@ -1,0 +1,8 @@
+node_modules/
+sass/
+package.json
+package-lock.json
+gulpfile.js
+README.md
+CONTRIBUTING.md
+LICENSE.md

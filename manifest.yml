@@ -1,0 +1,5 @@
+---
+applications:
+- name: service-tracking
+  memory: 128M
+  buildpack: staticfile_buildpack
