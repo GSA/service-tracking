@@ -5,11 +5,20 @@ var Tracker = {
     var hostname = Tracker.hostnameFor(input);
     var url = Tracker.jsonFor(hostname);
 
+    // TODO: spinner
+    $("#json code").text('');
+    $("#error").hide();
+
     $.get(url, function(data) {
       var json = JSON.stringify(data, undefined, 2);
       $("#json code").text(json);
 
       hljs.highlightBlock($("#json code").get(0));
+    })
+    .fail(function() {
+      $("#error")
+        .text("Couldn't find any scan results for " + hostname + ".")
+        .show();
     });
 
     return false;
