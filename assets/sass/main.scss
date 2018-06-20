@@ -6,3 +6,16 @@ $image-path: '../vendor/uswds/img';
 @import 'uswds';
 
 // New custom CSS rules can go here.
+
+.main-content {
+  padding: 3rem;
+}
+
+pre#json {
+  height: 300px;
+  border: 1px solid #ddd;
+
+  code {
+    font-size: 1.2rem;
+  }
+}
