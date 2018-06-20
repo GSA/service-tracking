@@ -2,6 +2,28 @@
 
 Tracking things about federal services.
 
+### Developing the site
+
+Get dependencies installed (once):
+
+```
+npm install
+```
+
+Regenerate CSS from Sass:
+
+```
+npm run build
+```
+
+Automatically regenerate CSS from Sass during development:
+
+```
+npm run watch
+```
+
+
+
 ### Public domain
 
 This project is in the worldwide [public domain](LICENSE.md). As stated in [CONTRIBUTING](CONTRIBUTING.md):
