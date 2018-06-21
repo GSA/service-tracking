@@ -19,6 +19,9 @@ export SCAN_DEST=/opt/scan/space/nightly/$TODAY/scan
 export S3_BUCKET=tts-public-data
 export S3_PREFIX=service-tracking
 
+export SCANNERS=pshtt,third_parties
+export LAMBDA_WORKERS=900
+
 ### Do stuff
 
 mkdir -p $GATHER_DEST
@@ -36,7 +39,7 @@ cd $DOMAIN_SCAN_HOME
 #
 # Use 900 workers to keep under the 1000 account-wide limit.
 # Make sure to schedule so as not to run at the same time as other scans that are making similarly full use of the account limit.
-./scan $GATHER_DEST/results/gathered.csv --scan=pshtt,third_parties --output=$SCAN_DEST --sort --meta --lambda --workers=900
+./scan $GATHER_DEST/results/gathered.csv --scan=$SCANNERS --output=$SCAN_DEST --sort --meta --lambda --workers=$LAMBDA_WORKERS
 
 # Upload the discovery and scan data to a public S3 bucket.
 # Publish to a single "live" path prefix to have data update in place,
