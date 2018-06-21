@@ -17,6 +17,7 @@ export GATHER_DEST=/opt/scan/space/nightly/$TODAY/gather
 export SCAN_DEST=/opt/scan/space/nightly/$TODAY/scan
 
 export S3_BUCKET=tts-public-data
+export S3_PREFIX=service-tracking
 
 ### Do stuff
 
@@ -27,4 +28,10 @@ cd $DOMAIN_SCAN_HOME
 
 ./gather censys,dap,eot2016,rdns-snapshot,other,dotgov --eot2016=https://github.com/GSA/data/raw/master/end-of-term-archive-csv/eot-2016-seeds.csv --rdns-snapshot=https://github.com/GSA/data/raw/master/dotgov-websites/rdns-federal-snapshot.csv --dap=https://analytics.usa.gov/data/live/sites-extended.csv --other=https://github.com/GSA/data/raw/master/dotgov-websites/other-websites.csv --dotgov=https://github.com/GSA/data/raw/master/dotgov-domains/current-federal.csv --suffix=.gov,.fed.us --parents=https://github.com/GSA/data/raw/master/dotgov-domains/current-federal.csv --include-parents --ignore-www --debug --output=$GATHER_DEST
 
-# aws s3 sync /opt/scan/space/nightly/$TODAY/gather
+# ./scan
+
+# upload
+
+aws s3 sync $GATHER_DEST s3://$S3_BUCKET/$S3_PREFIX/live/gather/ --acl=public-read --delete
+
+aws s3 sync s3://$S3_BUCKET/$S3_PREFIX/live/gather/ s3://$S3_BUCKET/$S3_PREFIX/archive/$TODAY/gather/ --acl=public-read
