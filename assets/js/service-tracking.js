@@ -25,17 +25,20 @@ var Tracker = {
   },
 
   jsonFor: function(hostname) {
-    var location;
-    if (hostname.split(".").length == 2)
-      location = "parents";
+    var scanner = "third_parties";
+    var bucket = "tts-public-data";
+    var prefix = "service-tracking"
+    var region = "us-east-1";
+
+    var fullRegion;
+    if (region == "us-east-1")
+      fullRegion = "s3";
     else
-      location = "subdomains/scan";
+      fullRegion = "s3-" + region;
 
-    var scanner = "pshtt";
-    var bucket = "cg-4adefb86-dadb-4ecf-be3e-f1c7b4f6d084";
-    var region = "us-gov-west-1";
-
-    return "https://s3-" + region + ".amazonaws.com/" + bucket + "/live/" + location + "/cache/" + scanner + "/" + hostname + ".json";
+    return "https://" + fullRegion + ".amazonaws.com/"
+      + bucket + "/" + prefix + "/live/scan/cache/"
+      + scanner + "/" + hostname + ".json";
   },
 
   hostnameFor: function(input) {
