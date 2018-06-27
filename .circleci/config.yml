@@ -63,7 +63,7 @@ workflows:
 
   sandbox_deployment:
     jobs:
-      - deploy_to_sandbox:
-          filters:
-            branches:
-              only: master
+      - deploy_to_sandbox
+          # filters:
+          #   branches:
+          #     only: master
