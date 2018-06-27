@@ -3,4 +3,4 @@
 # Currently, they take 1-2 hours to gather and scan all subdomains,
 # using ~900 parallel Lambda functions for pshtt and third_parties scans.
 
-0 9 * * * /bin/bash /opt/scan/service-tracking/scanning/cron.sh > /opt/logs/cron.log 2>&1
+0 9 * * 0 /bin/bash /opt/scan/service-tracking/scanning/cron.sh > /opt/logs/cron.log 2>&1
