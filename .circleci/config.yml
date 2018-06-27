@@ -1,0 +1,28 @@
+jobs:
+  data:
+    docker:
+      - image: "circleci/python:3.6.1"
+    steps:
+      - checkout:
+          path: ~/repo
+      - restore_cache:
+          key: "deps1-{{ .Branch }}-{{ checksum \"package.json\" }}"
+      - run:
+          command: |
+              npm install
+          name: "Installing dependencies"
+      - save_cache:
+          key: "deps1-{{ .Branch }}-{{ checksum \"package.json\" }}"
+          paths:
+            - node_modules
+      - run:
+          command: |
+              echo "Hello world"
+          name: "Testing tests"
+    working_directory: ~/repo
+
+workflows:
+  version: 2
+  service-tracking:
+    jobs:
+      - data
