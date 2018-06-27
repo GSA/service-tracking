@@ -20,6 +20,10 @@ jobs:
           command: |
               npm install
           name: "Installing dependencies"
+      - run:
+          command: |
+              npm run build
+          name: "Compiling assets"
       - save_cache:
           key: "deps1-{{ .Branch }}-{{ checksum \"package.json\" }}"
           paths:
@@ -41,7 +45,6 @@ jobs:
           - CF_API: https://api.fr.cloud.gov
 
     steps:
-      - checkout
       - deploy:
           name: cf push
           command: cf_deploy.sh service-tracking sandbox-gsa eric.mill
@@ -65,6 +68,8 @@ workflows:
   sandbox_deployment:
     jobs:
       - deploy_to_sandbox
+        requires:
+          - build
           # filters:
           #   branches:
           #     only: master
