@@ -41,6 +41,7 @@ jobs:
           - CF_API: https://api.fr.cloud.gov
 
     steps:
+      - checkout
       - deploy:
           name: cf push
           command: cf_deploy.sh service-tracking sandbox-gsa eric.mill
