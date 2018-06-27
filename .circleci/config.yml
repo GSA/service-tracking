@@ -1,5 +1,14 @@
+###
+# Use 18F fork of CF CLI for the Cloud.gov deployment.
+
+
+
 jobs:
-  data:
+
+  ####
+  # Define a proof-of-concept PR testing job.
+
+  testing:
     docker:
       - image: "circleci/node:10.5-browsers"
     steps:
@@ -21,8 +30,40 @@ jobs:
           name: "Testing tests"
     working_directory: ~/repo
 
+  ####
+  # Define a sandbox deployment job for commits to master.
+
+  deploy_to_sandbox:
+    docker:
+      - image: 18fgsa/cloud-foundry-cli
+        environment:
+          - TZ=America/New_York
+          - CF_API: https://api.fr.cloud.gov
+
+    steps:
+      - deploy:
+          name: cf push
+          command: cf_deploy.sh service-tracking sandbox-gsa eric.mill
+
+
+
+###
+# Set up the testing POC job per-PR,
+# TODO: and cloud.gov deployment for merged PRs (to master).
+
 workflows:
   version: 2
-  service-tracking:
+
+  basic_testing:
     jobs:
-      - data
+      - testing
+          filters:
+            branches:
+              ignore: master
+
+  sandbox_deployment:
+    jobs:
+      - deploy_to_sandbox:
+          filters:
+            branches:
+              only: master
