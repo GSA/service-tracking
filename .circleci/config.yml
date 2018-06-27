@@ -1,7 +1,7 @@
 jobs:
   data:
     docker:
-      - image: "circleci/python:3.6.1"
+      - image: "circleci/node:10.5-browsers"
     steps:
       - checkout:
           path: ~/repo
