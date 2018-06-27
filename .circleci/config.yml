@@ -8,7 +8,7 @@ jobs:
   ####
   # Define a proof-of-concept PR testing job.
 
-  testing:
+  build:
     docker:
       - image: "circleci/node:10.5-browsers"
     steps:
@@ -56,7 +56,7 @@ workflows:
 
   basic_testing:
     jobs:
-      - testing
+      - build:
           filters:
             branches:
               ignore: master
