@@ -1,0 +1,80 @@
+###
+# Use 18F fork of CF CLI for the Cloud.gov deployment.
+
+
+
+jobs:
+
+  ####
+  # Define a proof-of-concept PR testing job.
+
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: "circleci/node:10.5-browsers"
+    steps:
+      - checkout:
+          path: ~/repo
+      - restore_cache:
+          key: "deps1-{{ .Branch }}-{{ checksum \"package.json\" }}"
+      - run:
+          command: |
+              npm install
+          name: "Installing dependencies"
+      - run:
+          command: |
+              npm run build
+          name: "Compiling assets"
+      - save_cache:
+          key: "deps1-{{ .Branch }}-{{ checksum \"package.json\" }}"
+          paths:
+            - node_modules
+      - run:
+          command: |
+              echo "Hello world"
+          name: "Testing tests"
+
+      # Save the built assets to the workspace
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./*
+
+
+  ####
+  # Define a sandbox deployment job for commits to master.
+
+  deploy_to_sandbox:
+    working_directory: ~/repo
+
+    docker:
+      - image: 18fgsa/cloud-foundry-cli
+        environment:
+          - TZ=America/New_York
+          - CF_API: https://api.fr.cloud.gov
+
+    steps:
+      - attach_workspace:
+          at: .
+      - deploy:
+          name: cf push
+          command: cf_deploy.sh service-tracking sandbox-gsa eric.mill
+
+
+
+###
+# Set up the testing POC job per-PR,
+# TODO: and cloud.gov deployment for merged PRs (to master).
+
+workflows:
+  version: 2
+
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy_to_sandbox:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
