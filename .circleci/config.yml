@@ -58,19 +58,16 @@ jobs:
 workflows:
   version: 2
 
-  basic_testing:
+  test_and_deploy:
     jobs:
       - build:
           filters:
             branches:
               ignore: master
 
-  sandbox_deployment:
-    jobs:
       - deploy_to_sandbox:
           requires:
             - build
-
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              ignore: master
