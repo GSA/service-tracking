@@ -71,14 +71,10 @@ workflows:
 
   test_and_deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              ignore: master
-
+      - build
       - deploy_to_sandbox:
           requires:
             - build
           filters:
             branches:
-              ignore: master
+              only: master
