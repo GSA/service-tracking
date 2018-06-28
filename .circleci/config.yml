@@ -34,6 +34,12 @@ jobs:
               echo "Hello world"
           name: "Testing tests"
 
+      # Save the built assets to the workspace
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./*
+
 
   ####
   # Define a sandbox deployment job for commits to master.
