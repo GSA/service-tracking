@@ -19,7 +19,9 @@ export SCAN_DEST=/opt/scan/space/nightly/$TODAY/scan
 export S3_BUCKET=tts-public-data
 export S3_PREFIX=service-tracking
 
-export SCANNERS=pshtt,third_parties
+export GATHERERS=censys,dap,eot2016,rdns-snapshot,other,dotgov
+export SCANNERS=pshtt,third_parties,uswds
+
 export LAMBDA_WORKERS=900
 
 ### Do stuff
@@ -30,7 +32,7 @@ mkdir -p $SCAN_DEST
 cd $DOMAIN_SCAN_HOME
 
 # Discover federal .gov and .fed.us hostnames from public sources.
-./gather censys,dap,eot2016,rdns-snapshot,other,dotgov --eot2016=https://github.com/GSA/data/raw/master/end-of-term-archive-csv/eot-2016-seeds.csv --rdns-snapshot=https://github.com/GSA/data/raw/master/dotgov-websites/rdns-federal-snapshot.csv --dap=https://analytics.usa.gov/data/live/sites-extended.csv --other=https://github.com/GSA/data/raw/master/dotgov-websites/other-websites.csv --dotgov=https://github.com/GSA/data/raw/master/dotgov-domains/current-federal.csv --suffix=.gov,.fed.us --parents=https://github.com/GSA/data/raw/master/dotgov-domains/current-federal.csv --include-parents --ignore-www --debug --output=$GATHER_DEST
+./gather $GATHERERS --eot2016=https://github.com/GSA/data/raw/master/end-of-term-archive-csv/eot-2016-seeds.csv --rdns-snapshot=https://github.com/GSA/data/raw/master/dotgov-websites/rdns-federal-snapshot.csv --dap=https://analytics.usa.gov/data/live/sites-extended.csv --other=https://github.com/GSA/data/raw/master/dotgov-websites/other-websites.csv --dotgov=https://github.com/GSA/data/raw/master/dotgov-domains/current-federal.csv --suffix=.gov,.fed.us --parents=https://github.com/GSA/data/raw/master/dotgov-domains/current-federal.csv --include-parents --ignore-www --debug --output=$GATHER_DEST
 
 # Scan those hostnames:
 #
