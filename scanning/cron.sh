@@ -10,11 +10,13 @@ source $HOME/.bashrc
 
 export BIGQUERY_CREDENTIALS_PATH=/opt/credentials/gsa-gcp-pilot-6e3504ee5191.json
 export DOMAIN_SCAN_HOME=/opt/scan/domain-scan
+export TRACKER_HOME=/opt/scan/service-tracking
 
 export TODAY=`date +%Y-%m-%d`
 
 export GATHER_DEST=/opt/scan/space/nightly/$TODAY/gather
 export SCAN_DEST=/opt/scan/space/nightly/$TODAY/scan
+export PROCESS_DEST=/opt/scan/space/nightly/$TODAY/processed
 
 export S3_BUCKET=tts-public-data
 export S3_PREFIX=service-tracking
@@ -43,14 +45,18 @@ cd $DOMAIN_SCAN_HOME
 # Make sure to schedule so as not to run at the same time as other scans that are making similarly full use of the account limit.
 ./scan $GATHER_DEST/results/gathered.csv --scan=$SCANNERS --output=$SCAN_DEST --sort --meta --lambda --workers=$LAMBDA_WORKERS
 
-# Upload the discovery and scan data to a public S3 bucket.
+# Post-process some data to prepare for use inside the web app.
+#
+cd $TRACKER_HOME
+./scanning/process.py --scan=$SCAN_DEST --output=$PROCESS_DEST
+
+# Upload the discovery, scan, and processed data to a public S3 bucket.
 # Publish to a single "live" path prefix to have data update in place,
 # while also copying to a timestamped directory to archive data historically.
 
 aws s3 sync $GATHER_DEST s3://$S3_BUCKET/$S3_PREFIX/live/gather/ --acl=public-read --delete
-
 aws s3 sync s3://$S3_BUCKET/$S3_PREFIX/live/gather/ s3://$S3_BUCKET/$S3_PREFIX/archive/$TODAY/gather/ --acl=public-read
-
 aws s3 sync $SCAN_DEST s3://$S3_BUCKET/$S3_PREFIX/live/scan/ --acl=public-read --delete
-
 aws s3 sync s3://$S3_BUCKET/$S3_PREFIX/live/scan/ s3://$S3_BUCKET/$S3_PREFIX/archive/$TODAY/scan/ --acl=public-read
+aws s3 sync $PROCESS_DEST s3://$S3_BUCKET/$S3_PREFIX/live/processed/ --acl=public-read --delete
+aws s3 sync s3://$S3_BUCKET/$S3_PREFIX/live/processed/ s3://$S3_BUCKET/$S3_PREFIX/archive/$TODAY/processed/ --acl=public-read
