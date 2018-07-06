@@ -14,6 +14,10 @@ var Utils = {
 
     return "https://" + fullRegion + ".amazonaws.com/"
       + bucket + "/" + prefix + "/";
+  },
+
+  scanMetaURL: function() {
+    return Utils.s3Prefix() + "live/scan/results/meta.json";
   }
 
 };
