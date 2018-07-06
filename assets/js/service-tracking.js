@@ -3,7 +3,7 @@ var Tracker = {
   fetch: function() {
     var input = $("#hostname").val();
     var hostname = Tracker.hostnameFor(input);
-    var url = Tracker.jsonFor(hostname);
+    var url = Tracker.scanURL("third_parties", hostname);
 
     // TODO: spinner
     $("#json code").text('');
@@ -24,20 +24,8 @@ var Tracker = {
     return false;
   },
 
-  jsonFor: function(hostname) {
-    var scanner = "third_parties";
-    var bucket = "tts-public-data";
-    var prefix = "service-tracking"
-    var region = "us-east-1";
-
-    var fullRegion;
-    if (region == "us-east-1")
-      fullRegion = "s3";
-    else
-      fullRegion = "s3-" + region;
-
-    return "https://" + fullRegion + ".amazonaws.com/"
-      + bucket + "/" + prefix + "/live/scan/cache/"
+  scanURL: function(scanner, hostname) {
+    return Utils.s3Prefix() + "live/scan/cache/"
       + scanner + "/" + hostname + ".json";
   },
 
@@ -51,8 +39,5 @@ var Tracker = {
 };
 
 $(function() {
-
-$("#fetch").click(Tracker.fetch);
-
-
+  $("#fetch").click(Tracker.fetch);
 });
