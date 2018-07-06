@@ -1,2 +1,7 @@
-node_modules/
-assets/css/
+/node_modules/
+/assets/css/
+*.csv
+*.json
+/scanning/results
+__pycache__
+

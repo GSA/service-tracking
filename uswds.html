@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tracking Things</title>
+  <title>Bad Banner</title>
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/vendor/highlight/styles/github.css">
 </head>
@@ -12,16 +12,14 @@
 
   <div class="usa-content">
 
-    <form>
-      <input type="text"
-        placeholder="enter a website domain, such as 18f.gsa.gov"
-        id="hostname" />
+    <h4>Out of date USWDS banner text</h4>
+    <h5>Last scanned: <span class="end_time"></span></h5>
 
-      <button id="fetch">Show scan data for this hostname</button>
-      <span id="error"></span>
-    </form>
+    <span id="error"></span>
 
-    <pre class="json" id="json"><code></code></pre>
+    <pre class="json" id="banner"><code></code></pre>
+
+    <pre class="json" id="meta"><code></code></pre>
 
   </div>
 
@@ -31,7 +29,7 @@
 <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
 <script src="assets/vendor/highlight/highlight.pack.js"></script>
 <script src="assets/js/utils.js"></script>
-<script src="assets/js/service-tracking.js"></script>
+<script src="assets/js/bad_banner.js"></script>
 
 </body>
 </html>
