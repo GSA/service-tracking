@@ -4,11 +4,7 @@ var Banner = {
   fetch: function() {
 
     $.get(Banner.dataURL(), function(data) {
-      // TODO: load table
-
-      var json = JSON.stringify(data, undefined, 2);
-      $("#banner code").text(json);
-      hljs.highlightBlock($("#banner code").get(0));
+      Banner.renderTable(data);
     });
 
     $.get(Utils.scanMetaURL(), function(data) {
@@ -22,7 +18,47 @@ var Banner = {
 
   dataURL: function() {
     return Utils.s3Prefix() + "live/processed/bad_banner.json";
+  },
+
+    // takes an array of flat JSON objects, converts them to arrays
+  // renders them into a small table as an example
+  renderTable: function(rows) {
+
+    var header = ["Detected"];
+
+    // find CSV table
+    var table = $("table")[0];
+    $(table).text("");
+
+    // render header row
+    var thead = document.createElement("thead");
+    var tr = document.createElement("tr");
+    for (field in header) {
+      var th = document.createElement("th");
+      $(th).text(header[field])
+      tr.appendChild(th);
+    }
+    thead.appendChild(tr);
+
+    // render body of table
+    var tbody = document.createElement("tbody");
+    for (var i=1; i<rows.length; i++) {
+      var hostname = rows[i].hostname;
+      var link = rows[i].scanned_url;
+
+      tr = document.createElement("tr");
+      var td = document.createElement("td");
+      $(td)
+        .html("<a href=\"" + link + "\">" + hostname + "</a>")
+        .attr("title", hostname);
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+    }
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
   }
+
 
 };
 

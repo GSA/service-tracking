@@ -4,7 +4,7 @@ var USWDS = {
   fetch: function() {
 
     $.get(USWDS.dataURL(), function(data) {
-      renderTable(data);
+      USWDS.renderTable(data);
     });
 
     $.get(Utils.scanMetaURL(), function(data) {
@@ -27,7 +27,7 @@ var USWDS = {
     var header = ["Detected"];
 
     // find CSV table
-    var table = $(".csv table")[0];
+    var table = $("table")[0];
     $(table).text("");
 
     // render header row
