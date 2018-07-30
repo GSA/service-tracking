@@ -1,10 +1,10 @@
 
-var Banner = {
+var USWDS = {
 
   fetch: function() {
 
-    $.get(Banner.dataURL(), function(data) {
-      Banner.renderTable(data);
+    $.get(USWDS.dataURL(), function(data) {
+      USWDS.renderTable(data);
     });
 
     $.get(Utils.scanMetaURL(), function(data) {
@@ -17,10 +17,10 @@ var Banner = {
   },
 
   dataURL: function() {
-    return Utils.s3Prefix() + "live/processed/bad_banner.json";
+    return Utils.s3Prefix() + "live/processed/uswds_present.json";
   },
 
-    // takes an array of flat JSON objects, converts them to arrays
+  // takes an array of flat JSON objects, converts them to arrays
   // renders them into a small table as an example
   renderTable: function(rows) {
 
@@ -59,10 +59,9 @@ var Banner = {
     table.appendChild(tbody);
   }
 
-
 };
 
 
 $(function() {
-  Banner.fetch();
+  USWDS.fetch();
 });
