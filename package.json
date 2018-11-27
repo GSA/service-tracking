@@ -1,17 +1,16 @@
 {
-  "name": "uswds-simple-sass",
-  "version": "1.0.0",
-  "description": "Simple example project that uses the SASS files of the U.S. Web Design System.",
+  "name": "service-tracking",
+  "version": "0.0.2",
   "scripts": {
     "watch": "gulp watch",
     "build": "gulp",
     "federalist": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Atul Varma <atul.varma@gsa.gov>",
+  "author": "Eric Mill <eric.mill@gsa.gov>",
   "license": "CC0-1.0",
   "dependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^3.0.0",
     "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "uswds": "^1.6.6"
